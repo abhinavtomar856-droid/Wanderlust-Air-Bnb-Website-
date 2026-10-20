@@ -53,10 +53,14 @@ app.get("/listings/new",(req,res)=>{
 })
 
 //Create Route
-app.post("/listings",async (req,res)=>{
-    const newListing = new listing(req.body.listing)
-    await newListing.save();
-    res.redirect("/listings");
+app.post("/listings",async (req,res,next)=>{
+    try{
+        const newListing = new listing(req.body.listing)
+        await newListing.save();
+        res.redirect("/listings");
+    } catch(err){
+        next(err);
+    }
 });
 
 //Edit Route
@@ -101,6 +105,11 @@ app.get("/listings/:id",async(req,res)=>{
     let {id} = req.params;
     let searchData = await listing.findById(id);
     res.render("listings/show.ejs",{listing :searchData});
+})
+
+//Creating a middleware to handle the error
+app.use((err,req,res,next)=>{
+    res.send("Something went wrong!..")
 })
 
 //Server listend for the port 8080
