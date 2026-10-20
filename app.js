@@ -1,4 +1,3 @@
-//Air Bnb Website 
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -56,9 +55,8 @@ app.get("/listings/new",(req,res)=>{
 //Create Route
 app.post("/listings",async (req,res)=>{
     const newListing = new listing(req.body.listing)
-    console.log(newListing)
-    // await newListing.save();
-    // res.redirect("/listings");
+    await newListing.save();
+    res.redirect("/listings");
 });
 
 //Edit Route
