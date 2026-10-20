@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+
 //Schema define for document
 const listSchema = new Schema({
     title: {
