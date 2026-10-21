@@ -44,7 +44,7 @@ app.get("/testListing",(req,res)=>{
 })
 
 //Index Route
-app.get("/listings",wrapAsync(async (req,res)=>{
+app.get("/listings",wrapAsync(async(req,res)=>{
     const allListings = await listing.find({});
     res.render("listings/index.ejs",{allListings});
 }));
@@ -56,6 +56,9 @@ app.get("/listings/new",(req,res)=>{
 
 //Create Route
 app.post("/listings",wrapAsync (async(req,res,next) =>{
+    if(!req.body.listing){
+        throw new ExpressError(400,"Send valid data for listing");
+    }
     const newListing = new listing(req.body.listing)
     await newListing.save();
     res.redirect("/listings");
@@ -70,6 +73,9 @@ app.get("/listings/:id/edit",wrapAsync(async(req,res)=>{
 
 // Update Route
 app.put("/listings/:id", wrapAsync(async (req, res) => {
+     if(!req.body.listing){
+        throw new ExpressError(400,"Send valid data for listing");
+    }
     let { id } = req.params;
     let { title, description, image, price, location, country } = req.body;
     let updateListing = await listing.findByIdAndUpdate(
@@ -111,7 +117,7 @@ app.all("*",(req,res,next)=>{
 
 //Creating a middleware to handle the error
 app.use((err,req,res,next)=>{
-    let{ statusCode, message } = err;
+    let{ statusCode = 500, message = "Something went wrong!"} = err;
     res.status(statusCode).send(message);
 })
 
