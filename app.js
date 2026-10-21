@@ -6,6 +6,7 @@ const listing = require("./models/listing.js");
 const ejsMate = require("ejs-mate");
 const path = require("path");
 const wrapAsync = require("./utils/wrapAsync.js")
+const ExpressError = require("./utils/ExpressError.js")
 
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"))
@@ -43,10 +44,10 @@ app.get("/testListing",(req,res)=>{
 })
 
 //Index Route
-app.get("/listings",async (req,res)=>{
+app.get("/listings",wrapAsync(async (req,res)=>{
     const allListings = await listing.find({});
     res.render("listings/index.ejs",{allListings});
-});
+}));
 
 //New Route
 app.get("/listings/new",(req,res)=>{
@@ -61,14 +62,14 @@ app.post("/listings",wrapAsync (async(req,res,next) =>{
 }));
 
 //Edit Route
-app.get("/listings/:id/edit",async(req,res)=>{
+app.get("/listings/:id/edit",wrapAsync(async(req,res)=>{
     let {id} = req.params;
     let editlisting = await listing.findById(id);
     res.render("listings/edit.ejs",{editlisting});
-})
+}));
 
 // Update Route
-app.put("/listings/:id", async (req, res) => {
+app.put("/listings/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     let { title, description, image, price, location, country } = req.body;
     let updateListing = await listing.findByIdAndUpdate(
@@ -88,25 +89,30 @@ app.put("/listings/:id", async (req, res) => {
     );
     console.log("Listing updated successfully");
     res.redirect("/listings");
-});
+}));
 
 //Delete Route
-app.delete("/listings/:id", async(req,res)=>{
+app.delete("/listings/:id", wrapAsync(async(req,res)=>{
     let {id} = req.params;
     let deleteListing = await listing.findByIdAndDelete(id);
     res.redirect("/listings");
-})
+}));
 
 //Show Route
-app.get("/listings/:id",async(req,res)=>{
+app.get("/listings/:id",wrapAsync(async(req,res)=>{
     let {id} = req.params;
     let searchData = await listing.findById(id);
     res.render("listings/show.ejs",{listing :searchData});
+}));
+
+app.all("*",(req,res,next)=>{
+    next(new ExpressError(404,"Page Not Found!"));
 })
 
 //Creating a middleware to handle the error
 app.use((err,req,res,next)=>{
-    res.send("Something went wrong!..")
+    let{ statusCode, message } = err;
+    res.status(statusCode).send(message);
 })
 
 //Server listend for the port 8080
