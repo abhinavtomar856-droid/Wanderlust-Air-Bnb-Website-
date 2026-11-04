@@ -139,10 +139,16 @@ h2 {
   margin-bottom: 15px;
 }
 
-.edit-btn {
+/* .edit-btn {
   background-color: #222222 !important;
-}
+} */
 
 .card-text {
   margin-top: 10px;
+}
+
+.two-btns{
+      display: flex;
+      justify-content: center;
+      align-items: center;
 }
