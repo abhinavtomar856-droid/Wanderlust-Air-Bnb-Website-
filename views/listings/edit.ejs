@@ -6,47 +6,47 @@
                 <form method="POST" action="/listings/<%= editlisting._id %>?_method=PUT" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label for="title" class="form-label">Title:</label>
-                        <input type="text" id="title" name="title" class="form-control"
-                            placeholder="Enter listing title" value="<%= editlisting.title %>" required>
+                        <input type="text" id="title" name="listing[title]" class="form-control"
+                            placeholder="Enter listing title" value="<%=editlisting.title%>" required>
                         <div class="valid-feedback">Title looks good</div>
                         <div class="invalid-feedback">Title should be valid</div>    
                     </div>
 
                     <div class="mb-3">
                         <label for="description" class="form-label">Description:</label>
-                        <textarea id="description" name="description" class="form-control"
+                        <textarea id="description" name="listing[description]" class="form-control"
                             placeholder="Enter listing description" rows="5"
-                            cols="40" required><%= editlisting.description %></textarea>
+                            cols="40" required><%=editlisting.description%></textarea>
                         <div class="valid-feedback">Description choice is good</div>
                         <div class="invalid-feedback">Description must be there</div>    
                     </div>
 
                     <div class="mb-3">
                         <label for="image" class="form-label">Image URL:</label>
-                        <input type="text" id="image" name="image" class="form-control" placeholder="Paste image URL"
-                            value="<%= editlisting.image.url %>" required>
+                        <input type="text" id="image" name="listing[image]" class="form-control" placeholder="Paste image URL"
+                            value="<%=editlisting.image.url%>" required>
                         <div class="invalid-feedback">Image url should be mandotary</div>    
                     </div>
 
                     <div class="row">
                         <div class="mb-3 col-md-4">
                             <label for="price" class="form-label">Price:</label>
-                            <input type="number" id="price" name="price" class="form-control" placeholder="Enter price"
-                                value="<%= editlisting.price %>" min="0" required>
+                            <input type="number" id="price" name="listing[price]" class="form-control" placeholder="Enter price"
+                                value="<%=editlisting.price%>" min="0" required>
                             <div class="invalid-feedback">Price should be valid</div>       
                         </div>
 
                         <div class="mb-3 col-md-8">
                             <label for="country" class="form-label">Country:</label>
-                            <input type="text" id="country" name="country"class="form-control" placeholder="Enter country"
-                                value="<%= editlisting.country %>" required>
+                            <input type="text" id="country" name="listing[country]" class="form-control" placeholder="Enter country"
+                                value="<%=editlisting.country%>" required>
                             <div class="invalid-feedback">Country should be valid</div>     
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="location" class="form-label">Location:</label>
-                        <input type="text" id="location" name="location" class="form-control"
+                        <input type="text" id="location" name="listing[location]" class="form-control"
                             placeholder="Enter location" value="<%= editlisting.location %>" required>
                         <div class="invalid-feedback">Location should be valid</div>
                     </div>
