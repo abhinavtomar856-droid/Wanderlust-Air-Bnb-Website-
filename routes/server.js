@@ -1,29 +1,29 @@
 const express = require("express");
 const app = express();
-const cookieParser = require("cookie-parser");
+const session = require("express-session");
 
-//Cookie Parser Middleware.
-app.use(cookieParser("secretcode"))
+app.use(session(
+    {
+        secret:"mysecretstring",
+        resave : false,
+        saveUninitialized : true
+    }    
+))
 
-app.get("/getcookies",(req,res) =>{
-    res.cookie("Greet" , "Namaste");
-    res.cookie("MadeInIndia","Hello")
-    res.send("Get some cookies")
+app.get("/reqcount",(req,res) =>{
+    if(req.session.count){
+        req.session.count++;
+    }else{
+        req.session.count = 1;
+    }
+    res.send(`You send the request ${req.session.count} times`)
 })
 
-app.get("/getsignedcookie",(req,res) =>{
-    res.cookie("made-in","India",{signed:true})
-    res.send("Sent")
+app.get("/",(req,res) =>{
+    res.send("Welcome to the Home Page")
 })
-
-app.get("/verify",(req,res) =>{
-    console.log(req.cookies)
-    res.send("verified")
-})
-
-app.get("/",(req,res)=>{
-    console.dir(req.signedCookies);
-    res.send("Hi i am the root page");
+app.get("/test",(req,res) =>{
+    res.send("Test Successful")
 })
 
 app.listen(3000, () =>{
