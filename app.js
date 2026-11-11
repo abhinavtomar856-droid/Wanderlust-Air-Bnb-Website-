@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const path = require("path");
+const session = require("express-session")
 
 const ExpressError = require("./utils/ExpressError.js")
 
@@ -16,6 +17,14 @@ app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.engine("ejs",ejsMate);
+
+const sessionOptions = {
+    secret:"mysecretstring",
+    resave : false,
+    saveUninitialized : true
+}
+app.use(session(sessionOptions));
+
 
 async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
