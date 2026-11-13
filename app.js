@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const path = require("path");
+
 const ExpressError = require("./utils/ExpressError.js")
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/reviews.js");
@@ -24,13 +25,13 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
-
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.engine("ejs",ejsMate);
+
 
 async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
