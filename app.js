@@ -4,14 +4,29 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const path = require("path");
-
 const ExpressError = require("./utils/ExpressError.js")
-
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/reviews.js");
+const session = require("express-session");
+const flash = require("connect-flash");
+
+const sessionOptions = {
+    secret:"mysecretstring",
+    resave : false,
+    saveUninitialized : true,
+    cookie : {
+        expires : Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge : 7 * 24 * 60 * 60 * 1000,
+        httpOnly : true,
+    },
+};   
+
+app.use(session(sessionOptions));
+app.use(flash());
+
 
 app.set("view engine","ejs");
-app.set("views",path.join(__dirname,"views"))
+app.set("views",path.join(__dirname,"views"));
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -31,6 +46,12 @@ main()
 app.get("/",(req,res)=>{
     res.send("Home Page working");
 });
+
+//Middleware for flash messages.
+app.use((req,res,next) =>{
+    res.locals.success = req.flash("success")
+    next();
+})
 
 
 app.use("/listings",listings);
