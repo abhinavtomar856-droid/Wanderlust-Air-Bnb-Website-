@@ -1,0 +1,24 @@
+<% layout("/layouts/boilerplate") %>
+<div class="rows offset-3 mt-3">
+        <div class="col-8">
+            <h2>Login to Wanderlust</h2>
+            <form action="/login" method="POST" class="needs-validation" novalidate>
+                <div>
+                    <label for="username" class="form-label mt-3">Usename</label>
+                    <input name="username" id="username"  type="text" class="form-control" required/>
+                </div>
+
+                <div>
+                    <label for="email" class="form-label mt-3">Email</label>
+                    <input name="email" id="email" type="text" class="form-control" required/>
+                </div>
+
+                 <div>
+                    <label for="password" class="form-label mt-3">Password</label>
+                    <input name="password" id="password" type="password" class="form-control" required/>
+                </div>
+                <br>
+                <button class="btn btn-success mb-3">Login</button>
+            </form>
+    </div>
+</div>            

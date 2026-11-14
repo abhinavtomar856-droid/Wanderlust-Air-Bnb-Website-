@@ -70,17 +70,17 @@ app.get("/",(req,res)=>{
     res.send("Home Page working");
 });
 
-//Check for authentication.
-app.get("/registeruser", async(req,res) =>{
-    let newUser = new User({
-        email : "abhinavtomar856@gmail.com",
-        username : "Abhinav-t[omar"
-    })
+// //Check for authentication.
+// app.get("/registeruser", async(req,res) =>{
+//     let newUser = new User({
+//         email : "abhinavtomar856@gmail.com",
+//         username : "Abhinav-tomar"
+//     })
 
-    let regUser = await User.register(newUser,"helloworld");
-    console.log("New User added");
-    res.send(regUser);
-})
+//     let regUser = await User.register(newUser,"helloworld");
+//     console.log("New User added");
+//     res.send(regUser);
+// })
 
 app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews",reviewRouter);
